@@ -1,5 +1,4 @@
 function beforeRequest(request) {
-    logRequest(request);
     sendRequest(request);
 }
 

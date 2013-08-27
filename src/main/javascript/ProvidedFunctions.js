@@ -13,5 +13,9 @@ function logRequest(request) {
 }
 
 function sendRequest(request) {
-    
+    providedFunctions.sendRequest(request);
+}
+
+function sendResponse(response) {
+    providedFunctions.sendResponse(response);
 }

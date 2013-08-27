@@ -3,6 +3,7 @@ package de.lusiardi.soa.proxy.scripting;
 import com.google.common.base.Stopwatch;
 import de.lusiardi.soa.proxy.Configuration;
 import de.lusiardi.soa.proxy.data.HttpRequest;
+import de.lusiardi.soa.proxy.data.HttpResponse;
 import de.lusiardi.soa.proxy.data.HttpVersion;
 import de.lusiardi.soa.proxy.exceptions.HeaderParseException;
 import java.io.IOException;
@@ -22,8 +23,8 @@ public class ScriptingTest {
 
     @Before
     public void setup() throws IOException, HeaderParseException, ScriptException {
-        Configuration configuration = new Configuration();
-        scripting = new Scripting(configuration);
+        Configuration configuration = new Configuration("src/test/resources/test_configuration.properties");
+        scripting = new Scripting(null, configuration);
 
     }
 
@@ -42,11 +43,30 @@ public class ScriptingTest {
     }
 
     @Test
-    public void test_logInfo() throws ScriptException, NoSuchMethodException {
-        ProvidedFunctions functions = new ProvidedFunctions();
+    public void test_sendRequest() throws ScriptException, NoSuchMethodException {
         final HttpRequest httpRequest = new HttpRequest();
         httpRequest.setVersion(new HttpVersion(1, 2));
-        functions.logInfo(httpRequest);
+        scripting.getInvocable().invokeFunction("sendRequest", httpRequest);
+    }
+
+   @Test
+    public void test_sendResponse() throws ScriptException, NoSuchMethodException {
+        final HttpResponse httpResponse = new HttpResponse();
+        httpResponse.setVersion(new HttpVersion(1, 2));
+        scripting.getInvocable().invokeFunction("sendResponse", httpResponse);
+    }
+
+    @Test
+    public void test_before() throws ScriptException, NoSuchMethodException {
+        final HttpRequest httpRequest = new HttpRequest();
+        httpRequest.setVersion(new HttpVersion(1, 2));
+        scripting.before(httpRequest);
+    }
+
+    @Test
+    public void test_logInfo() throws ScriptException, NoSuchMethodException {
+        final HttpRequest httpRequest = new HttpRequest();
+        httpRequest.setVersion(new HttpVersion(1, 2));
         scripting.getInvocable().invokeFunction("logRequest", httpRequest);
     }
 }
