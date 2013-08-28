@@ -12,6 +12,8 @@ import javax.script.ScriptException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
 
 /**
  *
@@ -34,12 +36,12 @@ public class ScriptingTest {
         stopwatch.start();
         scripting.getInvocable().invokeFunction("wait", 2000);
         stopwatch.stop();
-        assertEquals(2000.0, stopwatch.elapsed(TimeUnit.MILLISECONDS), 50);
+        assertThat((int)stopwatch.elapsed(TimeUnit.MILLISECONDS), is(greaterThanOrEqualTo(2000)));
         stopwatch.reset();
         stopwatch.start();
         scripting.getInvocable().invokeFunction("wait", 1000);
         stopwatch.stop();
-        assertEquals(1000.0, stopwatch.elapsed(TimeUnit.MILLISECONDS), 50);
+        assertThat((int)stopwatch.elapsed(TimeUnit.MILLISECONDS), is(greaterThanOrEqualTo(1000)));
     }
 
     @Test
@@ -49,7 +51,7 @@ public class ScriptingTest {
         scripting.getInvocable().invokeFunction("sendRequest", httpRequest);
     }
 
-   @Test
+    @Test
     public void test_sendResponse() throws ScriptException, NoSuchMethodException {
         final HttpResponse httpResponse = new HttpResponse();
         httpResponse.setVersion(new HttpVersion(1, 2));
