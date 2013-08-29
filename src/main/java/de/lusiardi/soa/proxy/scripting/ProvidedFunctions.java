@@ -17,21 +17,15 @@ import org.apache.log4j.Logger;
 public class ProvidedFunctions {
 
     private static Logger logger = Logger.getLogger(ProvidedFunctions.class);
-
     private static Logger scriptLogger;
-
     private HttpRequestWriter requestWriter;
-
     private HttpResponseWriter responseWriter;
-
     private Configuration config;
-
     private Socket target = null;
-
     private Socket source;
 
     public ProvidedFunctions(Socket source, Configuration config) {
-        scriptLogger = Logger.getLogger(getClass());
+        scriptLogger = Logger.getLogger("SCRIPT");
         requestWriter = new HttpRequestWriter();
         responseWriter = new HttpResponseWriter();
         this.config = config;
@@ -44,12 +38,20 @@ public class ProvidedFunctions {
      *
      * @return the open socket
      */
-    public Socket getTargetSocket() {
+    Socket getTargetSocket() {
         return target;
     }
 
-    public void logInfo(HttpRequest request) {
-        scriptLogger.info("request: \n" + requestWriter.writeToString(request, "      >"));
+    public void logRequest(HttpRequest request) {
+        scriptLogger.info("\n" + requestWriter.writeToString(request, "      "));
+    }
+
+   public void logResponse(HttpResponse response) {
+        scriptLogger.info("\n" + responseWriter.writeToString(response, "      "));
+    }
+
+    public void debug(String message) {
+        scriptLogger.debug(message);
     }
 
     public void sendRequest(HttpRequest request) {

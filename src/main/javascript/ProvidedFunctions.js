@@ -7,9 +7,29 @@ function wait(milliseconds) {
     java.util.concurrent.TimeUnit.MILLISECONDS.sleep(milliseconds);
 }
 
+/**
+ * 
+ * @param {object} request
+ */
 function logRequest(request) {
-    //logger.info("request: \n{}", requestWriter.writeToString(request, "      >"));
-    providedFunctions.logInfo(request);
+    providedFunctions.logRequest(request);
+}
+
+/**
+ * 
+ * @param {object} response
+ */
+function logResponse(response) {
+    providedFunctions.logResponse(response);
+}
+
+/**
+ * Logs a debug message to the script output.
+ * 
+ * @param {string} message
+ */
+function debug(message) {
+    providedFunctions.debug(message);
 }
 
 function sendRequest(request) {
