@@ -5,7 +5,8 @@ import de.lusiardi.proxy.parsers.HttpHostParser;
 /**
  * A class to represent a HTTPHost as defined in <a
  * href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.23">RFC
- * 2616</a>. Can be parsed with {@link HttpHostParser}.
+ * 2616</a>. The form is "host"[:"port"]. If no port is given, it means port 80
+ * is used. Can be parsed with {@link HttpHostParser}.
  *
  * @author Joachim Lusiardi
  */

@@ -1,8 +1,6 @@
 package de.lusiardi.proxy.parsers;
 
-import de.lusiardi.proxy.parsers.HttpHeaderParser;
 import de.lusiardi.proxy.data.HttpHeader;
-import de.lusiardi.proxy.data.HttpHost;
 import de.lusiardi.proxy.exceptions.HeaderParseException;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -32,6 +30,15 @@ public class HttpHeaderParserTest {
 
         HttpHeaderParser headerParser = new HttpHeaderParser();
         headerParser.parse("foo");
+    }
+
+    @Test
+    public void test_parse_colon() throws HeaderParseException {
+        HttpHeaderParser headerParser = new HttpHeaderParser();
+        HttpHeader result = headerParser.parse("foo:");
+        
+        assertEquals("foo", result.getName());
+        assertEquals("", result.getValue());
     }
 
     @Test
