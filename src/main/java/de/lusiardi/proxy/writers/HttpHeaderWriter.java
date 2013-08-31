@@ -2,10 +2,6 @@ package de.lusiardi.proxy.writers;
 
 import de.lusiardi.proxy.data.HttpHeader;
 
-/**
- *
- * @author shing19m
- */
 public class HttpHeaderWriter {
 
     public String write(HttpHeader header) {

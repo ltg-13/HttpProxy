@@ -5,7 +5,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * Converts a byte[] into the canonical hex+ASCII display of hexdump.
  *
- * @author shing19m
+ * @author Joachim Lusiardi
  */
 public class HexDump {
 

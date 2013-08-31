@@ -39,7 +39,7 @@ public class Scripting {
      * Returns the socket to the target host. This is a delegate to {@link
      * ProvidedFunctions#getTargetSocket()}.
      *
-     * @return
+     * @return the socket to communicate with the target
      */
     public Socket getTargetSocket() {
         return providedFunctions.getTargetSocket();
@@ -48,7 +48,7 @@ public class Scripting {
     /**
      * returns the prepared engine.
      *
-     * @return
+     * @return the engine to execute all functions.
      */
     Invocable getInvocable() {
         return (Invocable) engine;

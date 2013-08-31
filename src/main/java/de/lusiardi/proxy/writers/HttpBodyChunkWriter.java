@@ -4,7 +4,7 @@ import de.lusiardi.proxy.data.HttpBodyChunk;
 
 /**
  *
- * @author shing19m
+ * @author Joachim Lusiardi
  */
 public class HttpBodyChunkWriter {
 
