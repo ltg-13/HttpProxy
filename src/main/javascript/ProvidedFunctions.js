@@ -40,6 +40,13 @@ function sendResponse(response) {
     providedFunctions.sendResponse(response);
 }
 
+/**
+ * Removes a header from from the given request. If the request has no such 
+ * header, nothing happens.
+ * 
+ * @param {string} header name of the header to remove
+ * @param {object} request request to remove the header from
+ */
 function removeHeaderFrom(header, request) {
     providedFunctions.removeHeaderFrom(header, request);
 }
