@@ -95,7 +95,12 @@ public class HttpHeaders implements Iterable<HttpHeader> {
         HttpHeader hostHeader = hostHeaders.toArray(new HttpHeader[hostHeaders.size()])[0];
         return hostParser.parse(hostHeader.getValue());
     }
-    
+
+    /**
+     * Removes all headers with the given name from the request.
+     *
+     * @param header the header's name
+     */
     public void removeHeader(String header) {
         headers.removeAll(header);
     }
