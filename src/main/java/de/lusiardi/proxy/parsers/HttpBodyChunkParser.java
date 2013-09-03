@@ -32,8 +32,8 @@ public class HttpBodyChunkParser {
         byte[] data = new byte[size];
         bufferedReader.readBytes(data, size);
 
-        logger.debug("chunksize '" + size + "'");
-        logger.debug("data '" + new String(data) + "'");
+        logger.debug("chunksize '" + size + "' '"+parts[0]+"'");
+//        logger.debug("data '" + new String(data) + "'");
         result.setData(data);
 
         return result;
