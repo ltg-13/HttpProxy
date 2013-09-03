@@ -10,7 +10,7 @@ import java.util.Iterator;
 /**
  * Class to handle all different headers in a HTTP message.
  *
- * @author shing19m
+ * @author Joachim Lusiard
  */
 public class HttpHeaders implements Iterable<HttpHeader> {
 
@@ -38,6 +38,7 @@ public class HttpHeaders implements Iterable<HttpHeader> {
      *
      * @return an Iterator.
      */
+    @Override
     public Iterator<HttpHeader> iterator() {
         return headers.values().iterator();
     }
@@ -93,5 +94,9 @@ public class HttpHeaders implements Iterable<HttpHeader> {
         }
         HttpHeader hostHeader = hostHeaders.toArray(new HttpHeader[hostHeaders.size()])[0];
         return hostParser.parse(hostHeader.getValue());
+    }
+    
+    public void removeHeader(String header) {
+        headers.removeAll(header);
     }
 }

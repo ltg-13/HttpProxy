@@ -3,6 +3,7 @@ package de.lusiardi.proxy.scripting;
 import de.lusiardi.proxy.Configuration;
 import de.lusiardi.proxy.data.HttpRequest;
 import de.lusiardi.proxy.data.HttpResponse;
+import de.lusiardi.proxy.exceptions.ScriptPreparationException;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -13,26 +14,41 @@ import javax.script.ScriptException;
 import org.apache.commons.io.IOUtils;
 
 /**
+ * This class is used to enable support for scripting in the proxy.
  *
- * @author shing19m
+ * @author Joachim Lusiardi
  */
 public class Scripting {
 
     private static final ScriptEngineManager factory = new ScriptEngineManager();
-
     private ScriptEngine engine;
+    private final ProvidedFunctions providedFunctions;
 
-    public final ProvidedFunctions providedFunctions;
-
-    public Scripting(Socket source, Configuration config) throws ScriptException, IOException {
+    /**
+     * Constructs the scripting support.
+     *
+     * @param source the socket between proxy and client
+     * @param config the configuration of the proxy
+     * @throws ScriptException thrown on any error when reading either the proxy
+     * provided functions or the user provided functions
+     * @throws IOException
+     */
+    public Scripting(Socket source, Configuration config) throws ScriptPreparationException {
         engine = factory.getEngineByName(config.getScriptType());
         providedFunctions = new ProvidedFunctions(source, config);
         engine.put("providedFunctions", providedFunctions);
-        BufferedInputStream stream = new BufferedInputStream(getClass().getResourceAsStream("/ProvidedFunctions.js"));
-        engine.eval(IOUtils.toString(stream, "UTF-8"));
-
-        // load user script from configuration
-        engine.eval(config.getScriptContent());
+        try {
+            BufferedInputStream stream = new BufferedInputStream(getClass().getResourceAsStream("/ProvidedFunctions.js"));
+            engine.eval(IOUtils.toString(stream, "UTF-8"));
+        } catch (Exception ex) {
+            throw new ScriptPreparationException("Could not handle provided functions script", ex);
+        }
+        try {
+            // load user script from configuration
+            engine.eval(config.getScriptContent());
+        } catch (ScriptException ex) {
+            throw new ScriptPreparationException("Could not handle user provided script", ex);
+        }
     }
 
     /**

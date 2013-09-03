@@ -1,13 +1,10 @@
 package de.lusiardi.proxy.scripting;
 
-import de.lusiardi.proxy.scripting.Scripting;
 import com.google.common.base.Stopwatch;
 import de.lusiardi.proxy.Configuration;
 import de.lusiardi.proxy.data.HttpRequest;
 import de.lusiardi.proxy.data.HttpResponse;
 import de.lusiardi.proxy.data.HttpVersion;
-import de.lusiardi.proxy.exceptions.HeaderParseException;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.script.ScriptException;
 import org.junit.Test;
@@ -25,7 +22,7 @@ public class ScriptingTest {
     private Scripting scripting;
 
     @Before
-    public void setup() throws IOException, HeaderParseException, ScriptException {
+    public void setup() throws Exception {
         Configuration configuration = new Configuration("src/test/resources/test_configuration.properties");
         scripting = new Scripting(null, configuration);
 

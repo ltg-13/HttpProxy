@@ -8,13 +8,23 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 /**
+ * Class to write out HTTP requests as defined in <a
+ * href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6">RFC
+ * 2616</a>.
  *
- * @author shing19m
+ * @author Joachim Lusiardi
  */
 public class HttpRequestWriter {
 
     private HttpVersionWriter versionWriter = new HttpVersionWriter();
 
+    /**
+     * Writes the given request to the given stream.
+     *
+     * @param response the response to write
+     * @param outputStream to target stream to write to
+     * @throws IOException on any write error
+     */
     public void writeToStream(HttpRequest request, OutputStream outputStream) throws IOException {
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
 
@@ -24,6 +34,13 @@ public class HttpRequestWriter {
         bufferedWriter.flush();
     }
 
+    /**
+     * Writes the request to a string with a given optional indentation.
+     *
+     * @param response the response to write
+     * @param indentation the indentation to prefix every line
+     * @return the string containing the response
+     */
     public String writeToString(HttpRequest request, String indentation) {
         String result = indentation + request.getMethod() + " " + request.getRequestURI() + " " + versionWriter.write(request.getVersion()) + "\r\n";
         HttpHeaderWriter headerWriter = new HttpHeaderWriter();
@@ -38,7 +55,7 @@ public class HttpRequestWriter {
         if (request.getBody() != null) {
             result += indentation + new String(request.getBody());
         }
-        
+
         return result;
     }
 }

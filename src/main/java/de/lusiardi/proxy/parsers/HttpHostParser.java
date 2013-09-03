@@ -5,7 +5,7 @@ import de.lusiardi.proxy.exceptions.HeaderParseException;
 
 /**
  *
- * @author shing19m
+ * @author Joachim Lusiardi
  */
 public class HttpHostParser {
 

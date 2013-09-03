@@ -39,3 +39,7 @@ function sendRequest(request) {
 function sendResponse(response) {
     providedFunctions.sendResponse(response);
 }
+
+function removeHeaderFrom(header, request) {
+    providedFunctions.removeHeaderFrom(header, request);
+}

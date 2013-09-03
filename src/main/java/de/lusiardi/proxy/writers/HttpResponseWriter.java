@@ -8,8 +8,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 /**
+ * Class to write out HTTP Responses as defined in <a
+ * href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6">RFC
+ * 2616</a>.
  *
- * @author shing19m
+ * @author Joachim Lusiardi
  */
 public class HttpResponseWriter {
 
@@ -18,6 +21,13 @@ public class HttpResponseWriter {
     private HttpBodyChunkWriter bodyChunkWriter = new HttpBodyChunkWriter();
     private HexDump hexDump = new HexDump();
 
+    /**
+     * Writes the given response to the given stream.
+     *
+     * @param response the response to write
+     * @param outputStream to target stream to write to
+     * @throws IOException on any write error
+     */
     public void writeToStream(HttpResponse response, OutputStream outputStream) throws IOException {
         OutputStreamWriter bufferedWriter = new OutputStreamWriter(outputStream);
 
@@ -36,7 +46,7 @@ public class HttpResponseWriter {
         bufferedWriter.flush();
     }
 
-    void write(OutputStreamWriter bw, String out) throws IOException {
+    private void write(OutputStreamWriter bw, String out) throws IOException {
         bw.write(out, 0, out.length());
     }
 
@@ -60,6 +70,13 @@ public class HttpResponseWriter {
         return result;
     }
 
+    /**
+     * Writes the response to a string with a given optional indentation.
+     *
+     * @param response the response to write
+     * @param indentation the indentation to prefix every line
+     * @return the string containing the response
+     */
     public String writeToString(HttpResponse response, String indentation) {
 
         // render the request line

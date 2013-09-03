@@ -1,10 +1,6 @@
 function beforeRequest(request) {
-    
-//    debug(request.getMethod());
-//    if (request.getMethod() == "GET") {
-//        debug("waiting");
-//        wait(10000);
-//    }
+    removeHeaderFrom("Accept-Encoding", request);
+    logRequest(request);
     sendRequest(request);
 }
 

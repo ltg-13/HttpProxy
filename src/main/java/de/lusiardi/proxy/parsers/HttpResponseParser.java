@@ -42,7 +42,7 @@ public class HttpResponseParser {
         if (contentLength != null) {
             logger.debug("Content-Length: '" + contentLength + "'");
             byte[] content = new byte[contentLength];
-            bufferedReader.readBytes(content, 0, contentLength);
+            bufferedReader.readBytes(content, contentLength);
             result.setBody(content);
             logger.debug("Content: " + hexDump.write(content, "      >"));
         } else if (result.getHeaders().hasChunkedTransferEncoding()) {

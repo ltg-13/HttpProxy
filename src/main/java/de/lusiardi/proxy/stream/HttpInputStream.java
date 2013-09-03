@@ -6,8 +6,10 @@ import java.io.InputStream;
 import org.apache.log4j.Logger;
 
 /**
+ * A wrapper around an {@link InputStream} to enable the reading of byte arrays
+ * and strings in combination with a working buffering for both operations.
  *
- * @author shing19m
+ * @author Joachim Lusiardi
  */
 public class HttpInputStream {
 
@@ -15,10 +17,24 @@ public class HttpInputStream {
     private BufferedInputStream bufferedInputStream;
     private byte[] buffer = new byte[0];
 
+    /**
+     * Constructs a new instance from the given input stream.
+     *
+     * @param inputStream the basic input stream to read from. Must not be
+     * {@code null}.
+     */
     public HttpInputStream(InputStream inputStream) {
         this.bufferedInputStream = new BufferedInputStream(inputStream);
     }
 
+    /**
+     * Reads a line from the input stream. Reading the line will be repeated
+     * until a non empty line was read.
+     *
+     * @return the read line non empty
+     * @throws IOException on problems while filling the buffer
+     * @see #readLine() 
+     */
     public String readNonEmptyLine() throws IOException {
         String line = readLine();
         int tries = 0;
@@ -35,6 +51,15 @@ public class HttpInputStream {
         return line;
     }
 
+    /**
+     * Reads a line from the input stream. Line endings are detected by '\n',
+     * '\r' or '\r\n'. Line endings are returned by the function. Before it
+     * tries to consume as much bytes from the underlying input stream as
+     * possible. The buffer is then trimmed by the read number of bytes.
+     *
+     * @return the read line, may be empty
+     * @throws IOException on problems while filling the buffer
+     */
     public String readLine() throws IOException {
         logger.debug("starting readLine");
         fillBuffer();
@@ -66,11 +91,21 @@ public class HttpInputStream {
         return new String(lineBytes);
     }
 
-    public int readBytes(byte[] target, int offset, int maxLength) throws IOException {
+    /**
+     * Reads bytes from the input stream. Before it tries to consume as much
+     * bytes from the underlying input stream as possible. The buffer is then
+     * trimmed by the read number of bytes.
+     *
+     * @param target the target for the operation
+     * @param maxLength the number of bytes to read at maximum
+     * @return the number of read bytes
+     * @throws IOException on problems while filling the buffer
+     */
+    public int readBytes(byte[] target, int maxLength) throws IOException {
         fillBuffer();
         int toCopy = Math.min(maxLength, buffer.length);
 
-        System.arraycopy(buffer, 0, target, offset, toCopy);
+        System.arraycopy(buffer, 0, target, 0, toCopy);
         logger.debug("copied '" + toCopy + "' bytes");
 
         trimBuffer(toCopy);

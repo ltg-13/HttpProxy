@@ -21,11 +21,11 @@ public class HttpInputStreamTest {
         HttpInputStream his = new HttpInputStream(is);
 
         byte[] target1 = new byte[4];
-        int read = his.readBytes(target1, 0, 4);
+        int read = his.readBytes(target1, 4);
         assertEquals(4, read);
 
         byte[] target2 = new byte[4];
-        read = his.readBytes(target2, 0, 4);
+        read = his.readBytes(target2, 4);
         assertEquals(4, read);
 
         assertThat(target1, IsNot.not(IsEqual.equalTo(target2)));
@@ -38,7 +38,7 @@ public class HttpInputStreamTest {
         HttpInputStream his = new HttpInputStream(is);
 
         byte[] target1 = new byte[1000];
-        int read = his.readBytes(target1, 0, 1000);
+        int read = his.readBytes(target1, 1000);
         assertEquals(input.getBytes().length, read);
 
     }

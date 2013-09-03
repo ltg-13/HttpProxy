@@ -2,14 +2,13 @@ package de.lusiardi.proxy;
 
 import de.lusiardi.proxy.data.HttpRequest;
 import de.lusiardi.proxy.data.HttpResponse;
+import de.lusiardi.proxy.exceptions.ScriptPreparationException;
 import de.lusiardi.proxy.parsers.HttpRequestParser;
 import de.lusiardi.proxy.parsers.HttpResponseParser;
 import de.lusiardi.proxy.scripting.Scripting;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.util.concurrent.TimeUnit;
-import javax.script.ScriptException;
 import org.apache.log4j.Logger;
 
 public class ProxyThreadString extends Thread implements Runnable {
@@ -24,7 +23,7 @@ public class ProxyThreadString extends Thread implements Runnable {
 
     private HttpResponseParser responseParser = new HttpResponseParser();
 
-    public ProxyThreadString(Socket socket, Configuration config) throws ScriptException, IOException {
+    public ProxyThreadString(Socket socket, Configuration config) throws ScriptPreparationException {
         this.socket = socket;
         this.scripting = new Scripting(socket, config);
     }

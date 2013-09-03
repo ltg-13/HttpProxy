@@ -5,18 +5,32 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * http://www.w3.org/Protocols/rfc2616/rfc2616-sec3.html#sec3.6.1
+ * Class to hold series of of HTTP body chunks.
  *
- * @author shing19m
+ * @author Joachim Lusiardi
  */
-public class HttpBodyChunks implements Iterable<HttpBodyChunk>{
+public class HttpBodyChunks implements Iterable<HttpBodyChunk> {
 
     private List<HttpBodyChunk> chunks = new ArrayList<HttpBodyChunk>();
 
+    /**
+     * Adds a chunk to the list of chunks. The chunk must not be {@code null}.
+     *
+     * @param chunk the chunk to add
+     */
     public void add(HttpBodyChunk chunk) {
+        if (chunk == null) {
+            throw new IllegalArgumentException("the chunk to add must not be null");
+        }
         chunks.add(chunk);
     }
 
+    /**
+     * Returns an iterator over the chunks.
+     *
+     * @return an Iterator.
+     */
+    @Override
     public Iterator<HttpBodyChunk> iterator() {
         return chunks.iterator();
     }
