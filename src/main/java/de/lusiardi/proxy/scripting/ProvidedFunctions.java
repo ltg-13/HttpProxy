@@ -117,7 +117,13 @@ public class ProvidedFunctions {
             logger.error("Fail", ex);
         }
     }
-    
+
+    /**
+     * Removes all entries for the given header from the request.
+     *
+     * @param header the name of the header as string
+     * @param request the request to remove the header from
+     */
     public void removeHeaderFrom(String header, HttpRequest request) {
         request.getHeaders().removeHeader(header);
     }
