@@ -1,6 +1,5 @@
 package de.lusiardi.proxy.parsers;
 
-import de.lusiardi.proxy.parsers.HttpVersionParser;
 import de.lusiardi.proxy.data.HttpVersion;
 import de.lusiardi.proxy.exceptions.VersionParseException;
 import org.junit.Test;
@@ -10,7 +9,7 @@ import org.junit.rules.ExpectedException;
 
 /**
  *
- * @author shing19m
+ * @author Joachim Lusiardi
  */
 public class HttpVersionParserTest {
 

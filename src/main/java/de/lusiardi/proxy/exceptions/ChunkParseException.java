@@ -1,18 +1,18 @@
 package de.lusiardi.proxy.exceptions;
 
 /**
- * Exception to indicate a problem while parsing a HTTP response.
+ * Exception to indicate a problem while parsing a HTTP body chunk.
  *
  * @author Joachim Lusiardi
  */
-public class ResponseParseException extends Exception {
+public class ChunkParseException extends Exception {
 
     /**
      * Constructs a new exception.
      *
      * @param message the message of the exception
      */
-    public ResponseParseException(String message) {
+    public ChunkParseException(String message) {
         super(message);
     }
 
@@ -22,7 +22,7 @@ public class ResponseParseException extends Exception {
      * @param message the message of the exception
      * @param cause the causing {@link Throwable} of this exception
      */
-    public ResponseParseException(String message, Throwable cause) {
+    public ChunkParseException(String message, Throwable cause) {
         super(message, cause);
     }
 }
