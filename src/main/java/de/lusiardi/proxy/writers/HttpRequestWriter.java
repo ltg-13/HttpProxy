@@ -19,7 +19,8 @@ public class HttpRequestWriter {
     private HttpVersionWriter versionWriter = new HttpVersionWriter();
 
     /**
-     * Writes the given request to the given stream.
+     * Writes the given request to the given stream. This uses {@link #writeToString(de.lusiardi.proxy.data.HttpRequest, java.lang.String)
+     * } to write out the request.
      *
      * @param response the response to write
      * @param outputStream to target stream to write to
@@ -35,13 +36,24 @@ public class HttpRequestWriter {
     }
 
     /**
-     * Writes the request to a string with a given optional indentation.
+     * Writes the request to a string with a given optional indentation. Throws
+     * {@link IllegalArgumentException} if the request is missing required
+     * fields.
      *
      * @param response the response to write
      * @param indentation the indentation to prefix every line
      * @return the string containing the response
      */
     public String writeToString(HttpRequest request, String indentation) {
+        if (request == null) {
+            throw new IllegalArgumentException("the request must not be null");
+        }
+        if (request.getMethod() == null) {
+            throw new IllegalArgumentException("the request method must not be null");
+        }
+        if (request.getRequestURI() == null) {
+            throw new IllegalArgumentException("the request URI must not be null");
+        }
         String result = indentation + request.getMethod() + " " + request.getRequestURI() + " " + versionWriter.write(request.getVersion()) + "\r\n";
         HttpHeaderWriter headerWriter = new HttpHeaderWriter();
 

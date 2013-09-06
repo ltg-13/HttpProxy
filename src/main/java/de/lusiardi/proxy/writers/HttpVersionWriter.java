@@ -22,7 +22,7 @@ public class HttpVersionWriter {
      */
     public String write(HttpVersion version) {
         if (version == null) {
-            throw new IllegalArgumentException("header must not be 'null'");
+            throw new IllegalArgumentException("version must not be 'null'");
         }
         return "HTTP/" + version.getMajorVersion() + "." + version.getMinorVersion();
     }
