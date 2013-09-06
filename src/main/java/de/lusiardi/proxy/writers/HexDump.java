@@ -40,7 +40,7 @@ public class HexDump {
                 if (i % 8 == 0) {
                     result += " ";
                 }
-                if (i >= in.length) {
+                if (i >= in.length && i % 16 != 0) {
                     for (int fillup = i % width; fillup < width; fillup++) {
                         result += "   ";
                         if ((i + fillup) % 8 == 0) {
