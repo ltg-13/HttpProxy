@@ -67,6 +67,8 @@ public class ScriptingTest {
     public void test_logInfo() throws ScriptException, NoSuchMethodException {
         final HttpRequest httpRequest = new HttpRequest();
         httpRequest.setVersion(new HttpVersion(1, 2));
+        httpRequest.setMethod("GET");
+        httpRequest.setRequestURI("/");
         scripting.getInvocable().invokeFunction("logRequest", httpRequest);
     }
 }

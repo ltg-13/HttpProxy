@@ -14,7 +14,25 @@ import de.lusiardi.proxy.writers.HttpBodyChunkWriter;
 public class HttpBodyChunk {
 
     private int size;
+
     private byte[] data;
+
+    /**
+     * Creates a new chunk with length 0 and no data.
+     */
+    public HttpBodyChunk() {
+    }
+
+    /**
+     * Creates a new chunk with given length and data.
+     *
+     * @param size the size of the chunk
+     * @param data the data of the chunk
+     */
+    public HttpBodyChunk(int size, byte[] data) {
+        this.size = size;
+        this.data = data;
+    }
 
     /**
      * Returns the size of the chunk.

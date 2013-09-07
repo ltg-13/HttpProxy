@@ -17,8 +17,11 @@ import java.io.OutputStreamWriter;
 public class HttpResponseWriter {
 
     private HttpVersionWriter versionWriter = new HttpVersionWriter();
+
     private HttpHeaderWriter headerWriter = new HttpHeaderWriter();
+
     private HttpBodyChunkWriter bodyChunkWriter = new HttpBodyChunkWriter();
+
     private HexDump hexDump = new HexDump();
 
     /**
@@ -29,6 +32,15 @@ public class HttpResponseWriter {
      * @throws IOException on any write error
      */
     public void writeToStream(HttpResponse response, OutputStream outputStream) throws IOException {
+        if (response == null) {
+            throw new IllegalArgumentException("the response must not be null");
+        }
+        if (response.getReason() == null) {
+            throw new IllegalArgumentException("the request reason must not be null");
+        }
+        if (response.getVersion() == null) {
+            throw new IllegalArgumentException("the request version must not be null");
+        }
         OutputStreamWriter bufferedWriter = new OutputStreamWriter(outputStream);
 
         write(bufferedWriter, writeResultLine(response, ""));
@@ -40,6 +52,7 @@ public class HttpResponseWriter {
         } else {
             byte[] body = response.getBody();
             if (body != null) {
+                bufferedWriter.flush();
                 outputStream.write(body, 0, body.length);
             }
         }
@@ -51,7 +64,7 @@ public class HttpResponseWriter {
     }
 
     String writeResultLine(HttpResponse response, String indentation) {
-        return indentation + versionWriter.write(response.getVersion()) + " " + response.getStatusCode() + " " + response.getReason() + "\n";
+        return indentation + versionWriter.write(response.getVersion()) + " " + response.getStatusCode() + " " + response.getReason() + "\r\n";
     }
 
     String writeHeaders(HttpResponse response, String indentation) {
@@ -78,10 +91,18 @@ public class HttpResponseWriter {
      * @return the string containing the response
      */
     public String writeToString(HttpResponse response, String indentation) {
+        if (response == null) {
+            throw new IllegalArgumentException("the response must not be null");
+        }
+        if (response.getReason() == null) {
+            throw new IllegalArgumentException("the request reason must not be null");
+        }
+        if (response.getVersion() == null) {
+            throw new IllegalArgumentException("the request version must not be null");
+        }
 
         // render the request line
         String result = writeResultLine(response, indentation);
-
 
         // render the headers
         result += writeHeaders(response, indentation);
