@@ -19,11 +19,17 @@ import org.apache.log4j.Logger;
 public class ProvidedFunctions {
 
     private static Logger logger = Logger.getLogger(ProvidedFunctions.class);
+
     private static Logger scriptLogger;
+
     private HttpRequestWriter requestWriter;
+
     private HttpResponseWriter responseWriter;
+
     private Configuration config;
+
     private Socket target = null;
+
     private Socket source;
 
     /**
@@ -55,17 +61,28 @@ public class ProvidedFunctions {
      *
      * @param request the request
      */
-    public void logRequest(HttpRequest request) {
-        scriptLogger.info("\n" + requestWriter.writeToString(request, "      "));
+    public void logRequest(HttpRequest request, int maxLength) {
+        String requestString = requestWriter.writeToString(request, "      ");
+        if (maxLength != -1 && requestString.length() > maxLength) {
+            requestString = requestString.substring(0, maxLength);
+            requestString += "…";
+        }
+        scriptLogger.info("\n" + requestString);
     }
 
     /**
      * Logs a response to the script logger.
      *
      * @param response the response
+     * @param maxLength the maximum length to log, {@code -1} means unlimited
      */
-    public void logResponse(HttpResponse response) {
-        scriptLogger.info("\n" + responseWriter.writeToString(response, "      "));
+    public void logResponse(HttpResponse response, int maxLength) {
+        String responseString = responseWriter.writeToString(response, "      ");
+        if (maxLength != -1 && responseString.length() > maxLength) {
+            responseString = responseString.substring(0, maxLength);
+            responseString += "…";
+        }
+        scriptLogger.info("\n" + responseString);
     }
 
     /**

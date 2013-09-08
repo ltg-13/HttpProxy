@@ -8,19 +8,23 @@ function wait(milliseconds) {
 }
 
 /**
+ * Logs a request to the script output.
  * 
- * @param {object} request
+ * @param {object} request the request to log
+ * @param {number} length the maximum lenth to log, -1 means unlimited
  */
-function logRequest(request) {
-    providedFunctions.logRequest(request);
+function logRequest(request, length) {
+    providedFunctions.logRequest(request, length);
 }
 
 /**
+ * Logs a response to the script output.
  * 
- * @param {object} response
+ * @param {object} response the response to log
+ * @param {number} length the maximum lenth to log, -1 means unlimited
  */
-function logResponse(response) {
-    providedFunctions.logResponse(response);
+function logResponse(response, length) {
+    providedFunctions.logResponse(response, length);
 }
 
 /**

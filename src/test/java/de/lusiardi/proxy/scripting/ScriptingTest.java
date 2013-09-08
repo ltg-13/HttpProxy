@@ -34,12 +34,12 @@ public class ScriptingTest {
         stopwatch.start();
         scripting.getInvocable().invokeFunction("wait", 2000);
         stopwatch.stop();
-        assertThat((int)stopwatch.elapsed(TimeUnit.MILLISECONDS), is(greaterThanOrEqualTo(2000)));
+        assertThat((int) stopwatch.elapsed(TimeUnit.MILLISECONDS), is(greaterThanOrEqualTo(2000)));
         stopwatch.reset();
         stopwatch.start();
         scripting.getInvocable().invokeFunction("wait", 1000);
         stopwatch.stop();
-        assertThat((int)stopwatch.elapsed(TimeUnit.MILLISECONDS), is(greaterThanOrEqualTo(1000)));
+        assertThat((int) stopwatch.elapsed(TimeUnit.MILLISECONDS), is(greaterThanOrEqualTo(1000)));
     }
 
     @Test
@@ -64,11 +64,20 @@ public class ScriptingTest {
     }
 
     @Test
-    public void test_logInfo() throws ScriptException, NoSuchMethodException {
+    public void test_logRequest() throws ScriptException, NoSuchMethodException {
         final HttpRequest httpRequest = new HttpRequest();
         httpRequest.setVersion(new HttpVersion(1, 2));
         httpRequest.setMethod("GET");
         httpRequest.setRequestURI("/");
-        scripting.getInvocable().invokeFunction("logRequest", httpRequest);
+        scripting.getInvocable().invokeFunction("logRequest", httpRequest, 100);
+    }
+
+    @Test
+    public void test_logResponse() throws ScriptException, NoSuchMethodException {
+        final HttpResponse httpResponse = new HttpResponse();
+        httpResponse.setVersion(new HttpVersion(1, 2));
+        httpResponse.setStatusCode(200);
+        httpResponse.setReason("foo");
+        scripting.getInvocable().invokeFunction("logResponse", httpResponse, 100);
     }
 }
