@@ -8,6 +8,8 @@ import de.lusiardi.proxy.writers.HttpRequestWriter;
 import de.lusiardi.proxy.writers.HttpResponseWriter;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.URI;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -107,13 +109,40 @@ public class ProvidedFunctions {
             HttpHost targetHost = request.getHeaders().getHost();
             if (targetHost != null && !targetHost.equals(config.getListeningHost())) {
                 logger.debug("using '" + targetHost + "' as target");
-                target = new Socket(targetHost.getHost(), targetHost.getPort());
+                URI uri = URI.create(request.getRequestURI());
+                int port = uri.getPort();
+                if (port < 0) {
+                    if (uri.isAbsolute() && uri.isOpaque()) {
+                        try {
+                            port = Integer.parseInt(uri.getSchemeSpecificPart());
+                        } catch (NumberFormatException e) {
+                            port = targetHost.getPort();
+                        }
+                    }
+                }
+                target = new Socket(targetHost.getHost(), port);
             } else {
                 logger.debug("using '" + config.getDefaultTarget() + "' as target");
                 target = new Socket(config.getDefaultTarget().getHost(), config.getDefaultTarget().getPort());
             }
             final OutputStream targetOutput = target.getOutputStream();
-            requestWriter.writeToStream(request, targetOutput);
+            if ("CONNECT".equalsIgnoreCase(request.getMethod())) {
+                source.getOutputStream().write("HTTP/1.0 200 Connection Established\r\n\r\n".getBytes());
+                source.getOutputStream().flush();
+                logger.debug("send request by ssl");
+                TransferThread transferThread = new TransferThread(source.getInputStream(), target.getOutputStream());
+                TransferThread thread = new TransferThread(target.getInputStream(), source.getOutputStream());
+                transferThread.start();
+                thread.start();
+                transferThread.join();
+                thread.join();
+                logger.debug("send end by ssl");
+                source.close();
+                target.close();
+
+            } else {
+                requestWriter.writeToStream(request, targetOutput);
+            }
             targetOutput.flush();
         } catch (Exception ex) {
             logger.error("Fail", ex);

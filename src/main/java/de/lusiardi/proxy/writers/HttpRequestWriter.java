@@ -31,8 +31,12 @@ public class HttpRequestWriter {
 
         String tmp = writeToString(request, "");
         bufferedWriter.write(tmp);
-
         bufferedWriter.flush();
+
+        // render body
+        if (request.getBody() != null) {
+            outputStream.write(request.getBody());
+        }
     }
 
     /**
@@ -62,11 +66,6 @@ public class HttpRequestWriter {
         }
 
         result += indentation + "\r\n";
-
-        // render body
-        if (request.getBody() != null) {
-            result += indentation + new String(request.getBody());
-        }
 
         return result;
     }
