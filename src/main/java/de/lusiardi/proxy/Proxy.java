@@ -20,6 +20,7 @@ public class Proxy {
         Configuration config = new Configuration();
 
         ServerSocket server = new ServerSocket(config.getListeningPort(), 0, config.getListeningIp());
+        System.out.println("server = " + server.toString());
 
         while (true) {
             Socket socket = server.accept();

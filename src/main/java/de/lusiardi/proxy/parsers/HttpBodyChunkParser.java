@@ -33,6 +33,10 @@ public class HttpBodyChunkParser {
             String line = inputStream.readNonEmptyLine();
             logger.debug("line '" + line + "'");
 
+            if (line.isEmpty()) {
+                result.setData(new byte[0]);
+                return result;
+            }
             String[] parts = line.split(";");
             logger.debug("#parts '" + parts.length + "'");
 

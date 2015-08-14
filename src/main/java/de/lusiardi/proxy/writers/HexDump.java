@@ -1,5 +1,7 @@
 package de.lusiardi.proxy.writers;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -19,6 +21,11 @@ public class HexDump {
      * @return a string holding the output
      */
     public String write(byte[] in, String indentation) {
+        ByteArrayOutputStream bao = new ByteArrayOutputStream(in.length);
+        try {
+            bao.write(in);
+        } catch (IOException e) {
+        }
         String result = "";
         int i = 0;
         if (in.length == 0) {
@@ -58,6 +65,10 @@ public class HexDump {
             }
             result += "\n";
         } while (i < in.length);
-        return result;
+        try {
+            return bao.toString("UTF8");
+        } catch (UnsupportedEncodingException e) {
+            return result;
+        }
     }
 }

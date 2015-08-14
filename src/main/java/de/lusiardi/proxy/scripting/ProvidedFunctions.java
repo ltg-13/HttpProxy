@@ -50,7 +50,7 @@ public class ProvidedFunctions {
 
     /**
      * Return the socket to the target host. This will non-null after
-     * {@link #sendRequest(de.lusiardi.soa.proxy.data.HttpRequest)} was called.
+     * {@link #sendRequest(HttpRequest)} was called.
      *
      * @return the open socket
      */
@@ -69,7 +69,8 @@ public class ProvidedFunctions {
             requestString = requestString.substring(0, maxLength);
             requestString += "…";
         }
-        scriptLogger.info("\n" + requestString);
+        byte[] body = request.getBody();
+        scriptLogger.info("\n" + requestString + "\trequest length:" + (null == body ? 0 : body.length) + "\r\n");
     }
 
     /**
@@ -119,6 +120,9 @@ public class ProvidedFunctions {
                             port = targetHost.getPort();
                         }
                     }
+                }
+                if (port < 0) {
+                    port = 80;
                 }
                 target = new Socket(targetHost.getHost(), port);
             } else {
