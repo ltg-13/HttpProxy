@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="httpproxy" default="all">
+  
+  
+  <property file="httpproxy.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.tox/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.zip"/>
+    <include name="*.apk"/>
+    <include name="*.war"/>
+    <include name="*.egg"/>
+    <include name="*.ear"/>
+    <include name="*.ane"/>
+    <include name="*.swc"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.7" value="${jdk.home.1.7}/bin"/>
+  <path id="jdk.classpath.1.7">
+    <fileset dir="${jdk.home.1.7}">
+      <include name="jre/lib/jfr.jar"/>
+      <include name="jre/lib/management-agent.jar"/>
+      <include name="jre/lib/deploy.jar"/>
+      <include name="jre/lib/rt.jar"/>
+      <include name="jre/lib/charsets.jar"/>
+      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/jfxrt.jar"/>
+      <include name="jre/lib/jce.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/javaws.jar"/>
+      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/localedata.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
+      <include name="jre/lib/ext/dnsns.jar"/>
+      <include name="jre/lib/ext/zipfs.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.7}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.7}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.7"/>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.maven:_com.google.guava:guava:14.0.1.classpath">
+    <pathelement location="${path.variable.maven_repository}/com/google/guava/guava/14.0.1/guava-14.0.1.jar"/>
+  </path>
+  
+  <path id="library.maven:_commons-io:commons-io:2.4.classpath">
+    <pathelement location="${path.variable.maven_repository}/commons-io/commons-io/2.4/commons-io-2.4.jar"/>
+  </path>
+  
+  <path id="library.maven:_junit:junit:4.11.classpath">
+    <pathelement location="${path.variable.maven_repository}/junit/junit/4.11/junit-4.11.jar"/>
+  </path>
+  
+  <path id="library.maven:_log4j:log4j:1.2.17.classpath">
+    <pathelement location="${path.variable.maven_repository}/log4j/log4j/1.2.17/log4j-1.2.17.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.hamcrest:hamcrest-all:1.3.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-all/1.3/hamcrest-all-1.3.jar"/>
+  </path>
+  
+  <path id="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath">
+    <pathelement location="${path.variable.maven_repository}/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+  </path>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module HttpProxy -->
+  
+  <dirname property="module.httpproxy.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.httpproxy" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.httpproxy" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.httpproxy" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.httpproxy" value="-encoding UTF-8 -source 1.6 -target 1.6 ${compiler.args}"/>
+  
+  <property name="httpproxy.output.dir" value="${module.httpproxy.basedir}/target/classes"/>
+  <property name="httpproxy.testoutput.dir" value="${module.httpproxy.basedir}/target/test-classes"/>
+  
+  <path id="httpproxy.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="httpproxy.module.production.classpath">
+    <path refid="${module.jdk.classpath.httpproxy}"/>
+    <path refid="library.maven:_com.google.guava:guava:14.0.1.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.4.classpath"/>
+    <path refid="library.maven:_log4j:log4j:1.2.17.classpath"/>
+  </path>
+  
+  <path id="httpproxy.runtime.production.module.classpath">
+    <pathelement location="${httpproxy.output.dir}"/>
+    <path refid="library.maven:_com.google.guava:guava:14.0.1.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.4.classpath"/>
+    <path refid="library.maven:_log4j:log4j:1.2.17.classpath"/>
+  </path>
+  
+  <path id="httpproxy.module.classpath">
+    <path refid="${module.jdk.classpath.httpproxy}"/>
+    <pathelement location="${httpproxy.output.dir}"/>
+    <path refid="library.maven:_junit:junit:4.11.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:14.0.1.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.4.classpath"/>
+    <path refid="library.maven:_log4j:log4j:1.2.17.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-all:1.3.classpath"/>
+  </path>
+  
+  <path id="httpproxy.runtime.module.classpath">
+    <pathelement location="${httpproxy.testoutput.dir}"/>
+    <pathelement location="${httpproxy.output.dir}"/>
+    <path refid="library.maven:_junit:junit:4.11.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-core:1.3.classpath"/>
+    <path refid="library.maven:_com.google.guava:guava:14.0.1.classpath"/>
+    <path refid="library.maven:_commons-io:commons-io:2.4.classpath"/>
+    <path refid="library.maven:_log4j:log4j:1.2.17.classpath"/>
+    <path refid="library.maven:_org.hamcrest:hamcrest-all:1.3.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.httpproxy">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.httpproxy">
+    <patternset refid="excluded.from.module.httpproxy"/>
+  </patternset>
+  
+  <path id="httpproxy.module.sourcepath">
+    <dirset dir="${module.httpproxy.basedir}">
+      <include name="src/main/java"/>
+      <include name="src/main/javascript"/>
+      <include name="src/main/resources"/>
+    </dirset>
+  </path>
+  
+  <path id="httpproxy.module.test.sourcepath">
+    <dirset dir="${module.httpproxy.basedir}">
+      <include name="src/test/java"/>
+      <include name="src/test/resources"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.httpproxy" depends="compile.module.httpproxy.production,compile.module.httpproxy.tests" description="Compile module HttpProxy"/>
+  
+  <target name="compile.module.httpproxy.production" description="Compile module HttpProxy; production classes">
+    <mkdir dir="${httpproxy.output.dir}"/>
+    <javac destdir="${httpproxy.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.httpproxy}/javac">
+      <compilerarg line="${compiler.args.httpproxy}"/>
+      <bootclasspath refid="httpproxy.module.bootclasspath"/>
+      <classpath refid="httpproxy.module.production.classpath"/>
+      <src refid="httpproxy.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.httpproxy"/>
+    </javac>
+    
+    <copy todir="${httpproxy.output.dir}">
+      <fileset dir="${module.httpproxy.basedir}/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.httpproxy.basedir}/src/main/javascript">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.httpproxy.basedir}/src/main/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.httpproxy.tests" depends="compile.module.httpproxy.production" description="compile module HttpProxy; test classes" unless="skip.tests">
+    <mkdir dir="${httpproxy.testoutput.dir}"/>
+    <javac destdir="${httpproxy.testoutput.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.httpproxy}/javac">
+      <compilerarg line="${compiler.args.httpproxy}"/>
+      <bootclasspath refid="httpproxy.module.bootclasspath"/>
+      <classpath refid="httpproxy.module.classpath"/>
+      <src refid="httpproxy.module.test.sourcepath"/>
+      <patternset refid="excluded.from.compilation.httpproxy"/>
+    </javac>
+    
+    <copy todir="${httpproxy.testoutput.dir}">
+      <fileset dir="${module.httpproxy.basedir}/src/test/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.httpproxy.basedir}/src/test/resources">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="clean.module.httpproxy" description="cleanup module">
+    <delete dir="${httpproxy.output.dir}"/>
+    <delete dir="${httpproxy.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.httpproxy" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.httpproxy" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.httpproxy:jar" value="${basedir}"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.HttpProxy.jar" value="${artifacts.temp.dir}/HttpProxy.jar"/>
+  </target>
+  
+  <target name="artifact.httpproxy:jar" depends="init.artifacts, compile.module.httpproxy" description="Build &#39;HttpProxy:jar&#39; artifact">
+    <property name="artifact.temp.output.httpproxy:jar" value="${artifacts.temp.dir}/HttpProxy_jar"/>
+    <mkdir dir="${artifact.temp.output.httpproxy:jar}"/>
+    <jar destfile="${temp.jar.path.HttpProxy.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <zipfileset dir="${httpproxy.output.dir}"/>
+      <zipfileset src="${path.variable.maven_repository}/commons-io/commons-io/2.4/commons-io-2.4.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/log4j/log4j/1.2.17/log4j-1.2.17.jar"/>
+      <zipfileset src="${path.variable.maven_repository}/com/google/guava/guava/14.0.1/guava-14.0.1.jar"/>
+    </jar>
+    <copy file="${temp.jar.path.HttpProxy.jar}" tofile="${artifact.temp.output.httpproxy:jar}/HttpProxy.jar"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.httpproxy:jar" description="Build all artifacts">
+    <mkdir dir="${artifact.output.httpproxy:jar}"/>
+    <copy todir="${artifact.output.httpproxy:jar}">
+      <fileset dir="${artifact.temp.output.httpproxy:jar}"/>
+    </copy>
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>
